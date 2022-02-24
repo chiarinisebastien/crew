@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Yes or No{% endblock %}
+{% block titleBody %}Yes or No{% endblock %}
+
+{% block body %}
+
+<p><a class="btn btn-info btn-sm col-1" href="{{ path('yesorno_index') }}">Liste</a></p>
+<hr>
+
+{{ include('yesorno/_form.html.twig') }}
+
+{% endblock %}

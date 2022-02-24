@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Horaire
+{% endblock %}
+{% block titleBody %}Horaire
+{% endblock %}
+
+{% block body %}
+{{ include('pointage/menu_pointage.html.twig') }}
+
+<div class="row">
+	<div class="col-6">
+		<table id="datatable" class="table table-borderless table-sm small table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Date</th>
+					<th>Ouverture / Fermeture</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for pointage in pointages %}
+				<tr>
+					<td>{{ pointage.id }}</td>
+					<td>{{ pointage.createdAt ? pointage.createdAt|date('d/m/Y H:i') : '' }}</td>
+					<td>
+						{% if pointage.onoff == 1 %}
+						Ouvert
+						{% else %}
+						Fermé
+						{% endif %}
+					</td>
+					<td class="text-center">
+						<a href="{{ path('pointage_edit', {'id': pointage.id}) }}">
+							<i class="fas fa-edit"></i>
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="col-3 pastel1">
+		{% set today = 'now' | date('Ymd') %}
+		<table id="datatable2" class="table table-borderless table-sm small table-striped">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th class="text-center">Heure</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set i = 1 %}
+				{% set difference = 0 %}
+
+				{% set compteur = 0 %}
+				{% set superTot = 0 %}
+
+				{% for pointage in pointages %}
+				{% if i == 1 and pointage.createdAt | date('Ymd') != today %}
+				{% set periodeUn = pointage.createdAt %}
+				{% set i = i + 1 %}
+				{% elseif i == 2 and pointage.createdAt | date('Ymd') != today %}
+				{% set periodeDeux = pointage.createdAt %}
+				{% set i = i + 1 %}
+				{% elseif i == 3 and pointage.createdAt | date('Ymd') != today %}
+				{% set periodeTrois = pointage.createdAt %}
+				{% set i = i + 1 %}
+				{% elseif i == 4 and pointage.createdAt | date('Ymd') != today %}
+				{% set periodeQuatre = pointage.createdAt %}
+				{% set i = i + 1 %}
+				{% endif %}
+				{% if pointage.createdAt | date('Ymd') != today and i == 5 %}
+				{% set differenceUn = date(periodeDeux).diff(date(periodeUn)) %}
+				{% set differenceDeux = date(periodeQuatre).diff(date(periodeTrois)) %}
+
+				{% set hour = differenceUn.h %}
+				{% set min = differenceUn.i %}
+				{% set sec = differenceUn.s %}
+
+				{% set hourDeux = differenceDeux.h %}
+				{% set minDeux = differenceDeux.i %}
+				{% set secDeux = differenceDeux.s %}
+
+				{% set heureTot = hour + hourDeux %}
+				{% set minTot = min + minDeux %}
+				{% set secTot = sec + secDeux %}
+
+				{% set minSupp = (secTot / 60) | round(0,'floor') %}
+				{% set secTot = secTot - (minSupp * 60) %}
+				{% set secTot = secTot + minSupp %}
+
+				{% set heureSupp = (minTot / 60) | round(0,'floor') %}
+				{% set minTot = minTot - (heureSupp * 60) %}
+				{% set heureTot = heureTot + heureSupp %}
+
+				{% if minTot < 10 %} {% set minTot="0" ~ minTot %} {% endif %} {% if secTot < 10 %} {% set secTot="0" ~
+					secTot %} {% endif %} {% set compteur=compteur + 1 %} <tr>
+					<td>{{ pointage.createdAt | date('d/m/Y') }}</td>
+					<td class="text-center">
+						{{ heureTot }}:{{ minTot }}:{{ secTot }}
+					</td>
+					</tr>
+					{% set superTot = superTot + (heureTot * 60 * 60) + (minTot *60) + secTot %}
+					{% set i = 1 %}
+					{% endif %}
+					{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr style="background-color: white;">
+					<td></td>
+					<td class="text-center">
+						{% set secondeTheorique = ((7 * 60 * 60) + (54 * 60)) * compteur %}
+						{% set differenceSeconde = superTot - secondeTheorique %}
+						{% set minute = (differenceSeconde / 60) | round(0,'floor') %}
+						{% set seconde = differenceSeconde - (minute * 60) %}
+						{% if minute > 60 %}
+						{% set heure = (minute / 60) | round(0,'floor') %}
+						{% set minute = minute - (heure * 60) %}
+						{% else %}
+						{% set heure = 0 %}
+						{% endif %}
+						{% if minute < 10 %} {% set minute="0" ~ minute %} {% endif %} {% if seconde < 10 %} {% set
+							seconde="0" ~ seconde %} {% endif %} {{ heure }}:{{ minute }}:{{ seconde }} </td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+{% endblock %}
+{% block javascriptEnd %}
+<!-- datatable -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js"></script>
+<script>
+	$(document).ready(function () {
+		$.fn.dataTable.moment('DD/MM/YYYY');
+
+		var table = $('#datatable').DataTable({
+			orderCellsTop: true,
+			fixedHeader: true,
+			paging: true,
+			"pageLength": 10,
+			"responsive": true,
+			"autoWidth": false,
+			"dom": 'Bfrtip',
+			"buttons": [
+				'csv', 'excel', 'pdf'
+			],
+			order: [
+				[0, "desc"]
+			]
+		});
+	});
+</script>
+<script>
+	$(document).ready(function () {
+		$.fn.dataTable.moment('DD/MM/YYYY');
+
+		var table = $('#datatable2').DataTable({
+			orderCellsTop: true,
+			fixedHeader: true,
+			paging: true,
+			searching: false,
+			"pageLength": 10,
+			"responsive": true,
+			"autoWidth": false,
+			order: [
+				[0, "desc"]
+			]
+		});
+	});
+</script>
+{% endblock %}

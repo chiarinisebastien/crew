@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel utilisateur{% endblock %}
+{% block titleBody %}Nouvel utilisateur{% endblock %}
+
+
+{% block body %}
+
+
+    <p><a class="btn btn-info btn-sm col-1" href="{{ path('user_index') }}">Liste</a></p>
+    <hr>
+
+    {{ include('user/_form.html.twig') }}
+
+{% endblock %}

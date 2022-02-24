@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ reunion.createdAt ? reunion.createdAt|date('d/m/Y H:i:s') : '' }}{% endblock %}
+{% block titleBody %}{{ reunion.createdAt ? reunion.createdAt|date('d/m/Y H:i:s') : '' }}{% endblock %}
+{% block body %}
+{{ include('reunion/menu_reunion_edit.html.twig') }}
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="grisatre">
+            {{ reunion.text | raw }}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

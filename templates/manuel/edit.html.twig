@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editer manuel
+{% endblock %}
+{% block titleBody %}Editer manuel
+{% endblock %}
+{% block body %}
+
+{{ include('manuel/menu_manuel.html.twig') }}
+
+{{ include('manuel/_form.html.twig') }}
+{{ include('manuel/_delete_form.html.twig') }}
+{% endblock %}
+
+
+
+
+{% block javascriptEnd %}
+<script>
+    new Selectr(document.getElementById('manuel_categorie1'));
+    new Selectr(document.getElementById('manuel_categorie2'));
+    new Selectr(document.getElementById('manuel_categorie3'));
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ListeTache{% endblock %}
+
+{% block body %}
+    <h1>Create new ListeTache</h1>
+
+    {{ include('liste_tache/_form.html.twig') }}
+
+    <a href="{{ path('liste_tache_index') }}">back to list</a>
+{% endblock %}

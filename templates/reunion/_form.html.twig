@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+
+<div class="row">
+	<div class="col-2">{{ form_row(form.createdAt) }}</div>
+	<div class="col-2">{{ form_row(form.title) }}</div>
+</div>
+<div class="row">
+	<div class="col-12">{{ form_row(form.text) }}</div>
+</div>
+<div class="row">
+	<div class="col-12">{{ form_row(form.submit) }}</div>
+</div>
+
+{{ form_end(form) }}

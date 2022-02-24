@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit identifiant{% endblock %}
+{% block titleBody %}Edit identifiant{% endblock %}
+{% block body %}
+{{ include('identifiant/menu_identifiant.html.twig') }}
+
+{{ include('identifiant/_form.html.twig') }}
+{{ include('identifiant/_delete_form.html.twig') }}
+
+
+
+{% endblock %}
+
+{% block javascriptEnd %}
+
+<script>
+	
+	function makeid(length) {
+		var result           = '';
+		var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		var charactersLength = characters.length;
+				for ( var i = 0; i < length; i++ ) {
+					result += characters.charAt(Math.floor(Math.random() * charactersLength));
+				}
+				return result;
+				}
+
+	var modifValue = makeid(15);		
+	
+	var initValue = 'z.ert-256VfO.{{ identifiant.mdp }}<-<89utTRhdkke';
+
+	document.getElementById('identifiant_mdp').value = modifValue;
+
+	document.getElementById('cachecache').style.display = 'none';
+	document.getElementById('identifiant_mdp').style.display = 'none';
+	function myFunction() {
+		document.getElementById('cachecache').style.display = 'block';
+	}
+	function myFunction2() {
+		document.getElementById('identifiant_mdp').style.display = 'block';
+	}
+	function myFunction3() {
+		document.getElementById('identifiant_mdp').type = 'text';
+		document.getElementById('identifiant_mdp').value = initValue;
+	}
+</script>
+{% endblock %}

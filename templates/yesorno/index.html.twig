@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Yes or No{% endblock %}
+{% block titleBody %}Yes or No{% endblock %}
+
+{% block body %}
+<p><a class="btn btn-info btn-sm col-1" href="{{ path('yesorno_new') }}">Nouveau</a></p>
+<hr>
+
+<table id="datatable" class="table table-borderless table-sm small table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th class="text-center">actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for yesorno in yesornos %}
+        <tr>
+            <td>{{ yesorno.id }}</td>
+            <td>{{ yesorno.title }}</td>
+            <td class="text-center">
+                <a href="{{ path('yesorno_edit', {'id': yesorno.id}) }}"><i class="fas fa-edit"></i></a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

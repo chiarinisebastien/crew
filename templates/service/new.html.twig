@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau service{% endblock %}
+{% block titleBody %}Nouveau service{% endblock %}
+
+
+{% block body %}
+
+
+    <p><a class="btn btn-info btn-sm col-1" href="{{ path('service_index') }}">Liste</a></p>
+    <hr>
+
+    {{ include('service/_form.html.twig') }}
+
+{% endblock %}

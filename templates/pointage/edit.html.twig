@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit entrée{% endblock %}
+{% block titleBody %}Edit entrée{% endblock %}
+
+{% block body %}
+
+{{ include('pointage/menu_pointage.html.twig') }}
+{{ include('pointage/_form.html.twig') }}
+
+{{ include('pointage/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+
+<div class="row">
+
+	<div onclick="myFunction()" class="col-2">{{ form_row(form.quoi) }}</div>
+	<div onclick="myFunction3()" class="col-2">{{ form_row(form.ou) }}</div>
+	<div onclick="myFunction2()" class="col-2">{{ form_row(form.identifiant) }}</div>
+	<div id="cachecache" class="col-2">
+		{{ form_row(form.mdp) }}
+	</div>
+
+</div>
+
+
+<div class="row">
+
+	<div class="col-12">{{ form_row(form.submit) }}</div>
+
+</div>
+
+{{ form_end(form) }}

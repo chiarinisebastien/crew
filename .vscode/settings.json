@@ -1,0 +1,6 @@
+{
+    "editor.defaultFormatter": "mblode.twig-language-2",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    }
+}

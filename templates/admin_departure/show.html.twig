@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdminDeparture{% endblock %}
+
+{% block body %}
+    <h1>AdminDeparture</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ admin_departure.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ admin_departure.title }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_departure_index') }}">back to list</a>
+
+    <a href="{{ path('admin_departure_edit', {'id': admin_departure.id}) }}">edit</a>
+
+    {{ include('admin_departure/_delete_form.html.twig') }}
+{% endblock %}

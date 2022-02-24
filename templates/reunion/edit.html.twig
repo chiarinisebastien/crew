@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editer réunion{% endblock %}
+{% block titleBody %}Editer réunion{% endblock %}
+{% block body %}
+{{ include('reunion/menu_reunion.html.twig') }}
+{{ include('reunion/_form.html.twig') }}
+{{ include('reunion/_delete_form.html.twig') }}
+{% endblock %}

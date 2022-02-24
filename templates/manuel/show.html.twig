@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ manuel.title }}{% endblock %}
+{% block titleBody %}{{ manuel.title }}{% endblock %}
+{% block body %}
+{{ include('manuel/menu_manuel_edit.html.twig') }}
+
+
+<div class="row text-center">
+    <div class="col-3">
+        <div class="pastel1">
+            {{ manuel.categorie1 ? manuel.categorie1.title : '-' }}
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="pastel2">
+            {{ manuel.categorie2 ? manuel.categorie2.title : '-' }}
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="pastel3">
+            {{ manuel.categorie3 ? manuel.categorie3.title : '-' }}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="grisatre">
+            {{ manuel.text | raw }}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Editer utilisateur{% endblock %}
+{% block titleBody %}Editer utilisateur{% endblock %}
+
+
+{% block body %}
+
+
+    <p>
+        <a class="btn btn-info btn-sm col-1" href="{{ path('user_index') }}">Liste</a>
+        <a class="btn btn-info btn-sm col-1" href="{{ path('user_new') }}">Nouveau</a>
+    </p>
+    <hr>
+
+    {{ include('user/_formEdit.html.twig') }}
+
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}

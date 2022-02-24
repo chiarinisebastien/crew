@@ -1,0 +1,257 @@
+{% extends 'base.html.twig' %}
+{% block title %}Interventions : résumé
+{% endblock %}
+{% block titleBody %}Interventions : résumé
+{% endblock %}
+{% block body %}
+{{ include('intervention/menu_intervention.html.twig') }}
+
+<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+	<a style="width: 120px;" href="{{ path('intervention_resume', {'year':year, 'mois':13} ) }}"
+		class="btn btn-success btn-sm">Tout Annuel</a>
+	<a style="width: 120px;" href="{{ path('intervention_resume', {'year':2000, 'mois':13} ) }}"
+		class="btn btn-danger btn-sm">Vraiment Tout</a>
+	{% for i in 1..12 %}
+	<a style="width: 50px;" href="{{ path('intervention_resume', {'year':year, 'mois':i} ) }}"
+		class="btn btn-warning btn-sm">{{ i }}</a>
+	{% endfor %}
+</div>
+<br><br>
+
+<div class="row">
+	<div class="col-4">
+		<div class="pastel1">
+			<table id="datatable" class="table table-striped table-border small table-hover table-sm">
+				<thead>
+					<tr>
+						<th>Service</th>
+						<th class="text-center">Temps</th>
+						<th style="display: none;" class="text-center">Temps caché</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% set totHeure = 0 %}
+					<script>
+						var tableau = [];
+						var donnee = "['Task', 'Heure']";
+						tableau.push(donnee);
+					</script>
+					{% for intervention in interventions_par_service %}
+					<tr>
+						<td>{{ intervention.title }}</td>
+						<td class="text-center">
+							{% set heure = (intervention.diff / 60) | round(0,'floor') %}
+							{% set minutes = intervention.diff - (heure * 60) %}
+							{{ heure }}:{{ minutes }}
+							{% set totHeure = totHeure + heure %}
+						</td>
+						<td style="display: none;" class="text-center">{{ heure }}{{ minutes }}</td>
+					</tr>
+					<script>
+						var donnee = "['{{ intervention.title }}',{{ heure }}]";
+						tableau.push(donnee);
+					</script>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-4">
+		<div class="pastel2">
+			<table id="datatable2" class="table table-striped table-border small table-hover">
+				<thead>
+					<tr>
+						<th>User</th>
+						<th class="text-center">Temps</th>
+						<th style="display: none;" class="text-center">Temps caché</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for intervention in interventions_par_user %}
+					<tr>
+						<td>{{ intervention.firstname }}
+							{{ intervention.lastname }}</td>
+						<td class="text-center">
+							{% set heure = (intervention.diff / 60) | round(0,'floor') %}
+							{% set minutes = intervention.diff - (heure * 60) %}
+							{{ heure }}:{{ minutes }}
+						</td>
+						<td style="display: none;" class="text-center">{{ heure }}{{ minutes }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-4">
+		<div class="pastel3">
+			<table id="datatable3" class="table table-striped table-border small table-hover">
+				<thead>
+					<tr>
+						<th>Service</th>
+						<th class="text-center">nb</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for intervention in nouvelle_intervention_par_service %}
+					<tr>
+						<td>{{ intervention.title }}</td>
+						<td class="text-center">
+							{{ intervention.diff }}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-6" id="piechart" style="height: 500px;"></div>
+	<div class="col-6" id="columnchart_material" style="height: 500px;"></div>
+
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script type="text/javascript">
+		google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+			var data = google.visualization.arrayToDataTable([[
+				'Task', 'Heure'
+			], {% for intervention in interventions_par_service %} {% set heure = (intervention.diff / 60) | round(0, 'floor') %} [
+				'{{ intervention.title |replace({"'": "-"}) }}', {{ heure }}
+			], {% endfor %}]);
+
+		var options = {
+			title: 'Tâches'
+		};
+
+		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+		chart.draw(data, options);
+}
+	</script>
+
+
+	<script type="text/javascript">
+		google.charts.load('current', { 'packages': ['bar'] });
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				['Mois', 'Tickets'],
+				{% for inter in intervention_group_by_month %}
+		['{{ inter.gbMonth }}', {{ inter.diff }}],
+			{% endfor %}]);
+
+		var options = {
+			chart: {
+				title: 'Inters/Mois',
+				legend: {
+					position: 'none'
+				}
+			}
+		};
+
+		var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+		chart.draw(data, google.charts.Bar.convertOptions(options));
+}
+	</script>
+
+	<script type="text/javascript">
+		google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([[
+				'Mois', 'Inters'
+			], {% for inter in intervention_group_by_month %} [
+				'{{ inter.gbMonth }}', {{ inter.diff }}
+			], {% endfor %}]);
+
+		var options = {
+			title: 'Company Performance',
+			curveType: 'function',
+			legend: {
+				position: 'bottom'
+			}
+		};
+
+		var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+		chart.draw(data, options);
+}
+	</script>
+
+</div>
+
+
+{% endblock %}
+{% block javascriptEnd %}
+<!-- datatable -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js"></script>
+
+<script>
+	$(document).ready(function () {
+		$.fn.dataTable.moment('DD/MM/YYYY');
+
+		var table = $('#datatable').DataTable({
+			paging: true,
+			lengthChange: 10,
+			searching: true,
+			ordering: true,
+			info: true,
+			autoWidth: false,
+			responsive: true,
+			order: [
+				[2, "desc"]
+			]
+		});
+	});
+
+	$(document).ready(function () {
+		var table = $('#datatable2').DataTable({
+			paging: true,
+			lengthChange: 10,
+			searching: true,
+			ordering: true,
+			info: true,
+			autoWidth: false,
+			responsive: true,
+			order: [
+				[2, "desc"]
+			]
+		});
+
+		$("#datatable3").DataTable({
+			paging: true,
+			lengthChange: 10,
+			searching: true,
+			ordering: true,
+			info: true,
+			autoWidth: false,
+			responsive: true,
+			order: [
+				[1, "desc"]
+			]
+		});
+
+	});
+</script>
+{% endblock %}

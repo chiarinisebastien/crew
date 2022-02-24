@@ -1,0 +1,47 @@
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" href="{{ path('user_index') }}">Utilisateurs</a>
+		<a class="dropdown-item" href="{{ path('admin_departure_index') }}">Entité</a>
+		<a class="dropdown-item" href="{{ path('service_index') }}">Services</a>
+		<a class="dropdown-item" href="{{ path('category_index') }}">Catégories</a>
+		<a class="dropdown-item" href="{{ path('yesorno_index') }}">Yes or No</a>
+	</div>
+</li>
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Intervention</a>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" href="{{ path('intervention_index') }}">Liste</a>
+		<a class="dropdown-item" href="{{ path('intervention_new') }}">Nouvelle</a>
+		<a class="dropdown-item" href="{{ path('intervention_resume', {'year':year, 'mois':13} ) }}">Résumé</a>
+		<a class="dropdown-item" href="{{ path('nom_liste_tache_index') }}">Liste de taches</a>
+	</div>
+</li>
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Horaire</a>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" href="{{ path('pointage_index') }}">Liste</a>
+		<a class="dropdown-item" href="{{ path('pointage_new') }}">Nouvelle entrée</a>
+	</div>
+</li>
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Manuel</a>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" href="{{ path('manuel_index') }}">Liste</a>
+		<a class="dropdown-item" href="{{ path('manuel_new') }}">Nouvelle entrée</a>
+	</div>
+</li>
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Réunion</a>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" href="{{ path('reunion_index') }}">Liste</a>
+		<a class="dropdown-item" href="{{ path('reunion_new') }}">Nouvelle réunion</a>
+	</div>
+</li>
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Identifiants</a>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" href="{{ path('identifiant_index') }}">Liste</a>
+		<a class="dropdown-item" href="{{ path('identifiant_new') }}">Nouveau login</a>
+	</div>
+</li>

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer catégorie{% endblock %}
+{% block titleBody %}Editer catégorie{% endblock %}
+
+
+{% block body %}
+    {{ include('category/menu_category.html.twig') }}
+    {{ include('category/_form.html.twig') }}
+
+    {{ include('category/_delete_form.html.twig') }}
+{% endblock %}
